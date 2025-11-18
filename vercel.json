@@ -2,15 +2,26 @@
     "version": 2,
     "builds": [
       {
-        "src": "index.js", 
+        "src": "api/index.js",
         "use": "@vercel/node"
       }
     ],
     "routes": [
       {
         "src": "/(.*)",
-        "dest": "index.js"
+        "dest": "api/index.js"
       }
     ],
-    "installCommand": "npm install"
+    "installCommand": "npm install",
+    "headers": [
+      {
+        "source": "/api/(.*)",
+        "headers": [
+          { "key": "Access-Control-Allow-Origin", "value": "https://expense-tracker-frontend-sand-three.vercel.app" },
+          { "key": "Access-Control-Allow-Credentials", "value": "true" },
+          { "key": "Access-Control-Allow-Methods", "value": "GET,POST,PUT,DELETE,OPTIONS" },
+          { "key": "Access-Control-Allow-Headers", "value": "Content-Type,Authorization" }
+        ]
+      }
+    ]
 }
