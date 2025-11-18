@@ -11,13 +11,24 @@ const reportRoutes = require('./routes/reportRoutes');
 
 
 const app = express();
-app.use(
-    cors({
-        origin: process.env.CLIENT_ORIGIN?.split(","),
-        methods: "GET,POST,PUT,DELETE,OPTIONS",
-        credentials: true,
-    })
-);
+const allowedOrigins = process.env.ALLOWED_ORIGINS.split(",");
+
+app.use((req, res, next) => {
+    const origin = req.headers.origin;
+
+    if (allowedOrigins.includes(origin)) {
+        res.setHeader("Access-Control-Allow-Origin", origin);
+    }
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+    res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Content-Type, Authorization"
+    );
+    if (req.method === "OPTIONS") return res.status(200).end();
+    next();
+});
+
 
 app.use(express.json());
 
