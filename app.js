@@ -32,7 +32,8 @@ app.use('/api/reports', reportRoutes);
 
 // 404 handler
 app.use((req, res) => {
-  res.status(404).json({ error: 'Route not found' });
+    console.log('404 - Route not found:', req.originalUrl);
+    res.status(404).json({ error: 'Route not found' });
 });
 
 const PORT = process.env.PORT || 5000;
