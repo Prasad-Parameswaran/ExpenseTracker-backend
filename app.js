@@ -11,7 +11,7 @@ const reportRoutes = require('./routes/reportRoutes');
 
 
 const app = express();
-const allowedOrigins = process.env.ALLOWED_ORIGINS.split(",");
+const allowedOrigins = process.env.CLIENT_ORIGIN.split(",");
 
 app.use((req, res, next) => {
     const origin = req.headers.origin;
