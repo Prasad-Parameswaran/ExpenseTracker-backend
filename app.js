@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
-const connectDB = require('./db');
+const mongoose = require('mongoose');
+const cors = require('cors');
 
 const authRoutes = require('./routes/authRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
@@ -10,10 +11,6 @@ const reportRoutes = require('./routes/reportRoutes');
 
 
 const app = express();
-app.use(async (req, res, next) => {
-    await connectDB();
-    next();
-});
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
@@ -24,6 +21,17 @@ app.use((req, res, next) => {
     next();
 });
 app.use(express.json());
+
+mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    bufferCommands: false,
+    bufferMaxEntries: 0,
+    maxPoolSize: 10,
+    serverSelectionTimeoutMS: 5000,
+    socketTimeoutMS: 45000,
+}).then(() => console.log("MongoDB Connected.......")).catch(err => console.error("Initial connection error:", err));
+
 
 app.use('/api/auth', authRoutes);
 app.use('/api/categories', categoryRoutes);
@@ -42,4 +50,3 @@ app.use((req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log('Server running on', PORT));
-
