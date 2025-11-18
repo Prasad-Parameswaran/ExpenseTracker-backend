@@ -19,9 +19,7 @@ app.use(
 app.use(express.json());
 
 mongoose.connect(process.env.MONGO_URI, {
-})
-    .then(() => console.log("MongoDB Connected......."))
-    .catch(err => console.error("Initial connection error:", err));
+}).then(() => console.log("MongoDB Connected.......")).catch(err => console.error("Initial connection error:", err));
 
 
 app.use('/api/auth', authRoutes);
