@@ -1,7 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
+const connectDB = require('./db');
 
 const authRoutes = require('./routes/authRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
@@ -11,6 +10,10 @@ const reportRoutes = require('./routes/reportRoutes');
 
 
 const app = express();
+app.use(async (req, res, next) => {
+    await connectDB();
+    next();
+});
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
@@ -21,10 +24,6 @@ app.use((req, res, next) => {
     next();
 });
 app.use(express.json());
-
-mongoose.connect(process.env.MONGO_URI, {
-}).then(() => console.log("MongoDB Connected.......")).catch(err => console.error("Initial connection error:", err));
-
 
 app.use('/api/auth', authRoutes);
 app.use('/api/categories', categoryRoutes);
