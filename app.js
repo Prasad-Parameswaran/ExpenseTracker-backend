@@ -11,25 +11,14 @@ const reportRoutes = require('./routes/reportRoutes');
 
 
 const app = express();
-const allowedOrigins = process.env.CLIENT_ORIGIN.split(",");
-
-app.use((req, res, next) => {
-    const origin = req.headers.origin;
-
-    if (allowedOrigins.includes(origin)) {
-        res.setHeader("Access-Control-Allow-Origin", origin);
-    }
-    res.setHeader("Access-Control-Allow-Credentials", "true");
-    res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-    res.setHeader(
-        "Access-Control-Allow-Headers",
-        "Content-Type, Authorization"
-    );
-    if (req.method === "OPTIONS") return res.status(200).end();
-    next();
-});
-
-
+app.use(
+    cors({
+        origin: "*",
+        methods: "*",
+        allowedHeaders: "*",
+        credentials: false
+    })
+);
 app.use(express.json());
 
 mongoose.connect(process.env.MONGO_URI, {
