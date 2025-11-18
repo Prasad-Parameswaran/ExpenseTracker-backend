@@ -12,16 +12,5 @@
         "dest": "api/index.js"
       }
     ],
-    "installCommand": "npm install",
-    "headers": [
-      {
-        "source": "/api/(.*)",
-        "headers": [
-          { "key": "Access-Control-Allow-Origin", "value": "https://expense-tracker-frontend-sand-three.vercel.app" },
-          { "key": "Access-Control-Allow-Credentials", "value": "true" },
-          { "key": "Access-Control-Allow-Methods", "value": "GET,POST,PUT,DELETE,OPTIONS" },
-          { "key": "Access-Control-Allow-Headers", "value": "Content-Type,Authorization" }
-        ]
-      }
-    ]
+    "installCommand": "npm install"
 }
